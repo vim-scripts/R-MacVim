@@ -1,3 +1,8 @@
+function! s:GetSID()
+	return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
+endfunction
+let s:SID = s:GetSID()
+
 if exists("g:r_macvim_use32") && g:r_macvim_use32==1
     let s:bit=""
 else
@@ -18,13 +23,13 @@ function! s:Rcmd(command)
                 \ " -e 'tell application \"System Events\" to tell process \"R\" to perform action \"AXRaise\" of window 1'")
 endfunction
 
-function! b:RSource()
+function! s:RSource()
     let filepath =  escape(expand("%:p"),'"')
     let command = "source(\"" . filepath . "\")"
     call s:Rcmd(command)
 endfunction
 
-function! b:RSendSelection() 
+function! s:RSendSelection() 
     if line("'<") == line("'>")
         let i = col("'<") - 1
         let j = col("'>") - i
@@ -37,18 +42,18 @@ function! b:RSendSelection()
     call s:Rcmd(command)
 endfunction
 
-function! b:RSendLine()
+function! s:RSendLine()
         let command = getline(".")
     call s:Rcmd(command)
 endfunction
 
-function! b:RChgWorkDir()
+function! s:RChgWorkDir()
     let command = "setwd(\"". expand("%:p:h") . "/\")"
     call s:Rcmd(command)
 endfunction!
 
 
-function! b:RComment(sym)
+function! s:RComment(sym)
     let line = getline(".")
     if !empty(substitute(line, '^\s*\(.\{-}\)\s*$', '\1', ''))
         let firstchar = matchstr(line, '\v\s*\zs.\ze.*')  
@@ -60,4 +65,15 @@ function! b:RComment(sym)
     endif
 endfunction
 
-
+au FileType r nnoremap <buffer><silent> <Plug>RSource :call <SID>RSource()<CR>
+au FileType r inoremap <buffer><silent> <Plug>RSource <ESC>:call <SID>RSource()<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RSource :<C-u>call <SID>RSource()<CR>gv
+au FileType r nnoremap <buffer><silent> <Plug>RSelection :call <SID>RSendLine()<CR>
+au FileType r inoremap <buffer><silent> <Plug>RSelection <ESC>:call <SID>RSendLine()<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RSelection :<C-u>call <SID>RSendSelection()<CR>gv
+au FileType r nnoremap <buffer><silent> <Plug>RChgWorkDir :call <SID>RChgWorkDir()<CR>
+au FileType r inoremap <buffer><silent> <Plug>RChgWorkDir <ESC>:call <SID>RChgWorkDir()<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RChgWorkDir :<C-u>call <SID>RChgWorkDir()<CR>gv
+au FileType r nnoremap <buffer><silent> <Plug>RComment :call <SID>RComment("#")<CR>
+au FileType r inoremap <buffer><silent> <Plug>RComment <ESC>:call <SID>RComment("#")<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RComment :call <SID>RComment("#")<CR>gv
