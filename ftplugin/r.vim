@@ -1,25 +1,24 @@
 function! s:GetSID()
-	return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
+    return matchstr(expand('<sfile>'), '\zs<SNR>\d\+_\ze.*$')
 endfunction
 let s:SID = s:GetSID()
 
-if exists("g:r_macvim_use32") && g:r_macvim_use32==1
-    let s:bit=""
-else
-    let s:bit="64"
-endif
-
 function! s:Escape(command)
     let command = a:command
-        let command = substitute(command, '\', '\\\', 'g')
-        let command = substitute(command, '"', '\\"', "g")
-        let command = substitute(command, "'", "'\\\\''", "g")
+    let command = substitute(command, '\', '\\\', 'g')
+    let command = substitute(command, '"', '\\"', "g")
+    let command = substitute(command, "'", "'\\\\''", "g")
     return(command)
 endfunction
 
 function! s:Rcmd(command)
     let command = a:command
-    call system("osascript -e 'tell application \"R". s:bit ."\" to cmd \"" . s:Escape(a:command). "\"'" .
+    if exists("g:r_macvim_use32") && g:r_macvim_use32==1
+        let app="R"
+    else
+        let app="R64"
+    endif    
+    call system("osascript -e 'tell application \"". app ."\" to cmd \"" . s:Escape(a:command). "\"'" .
                 \ " -e 'tell application \"System Events\" to tell process \"R\" to perform action \"AXRaise\" of window 1'")
 endfunction
 
@@ -43,7 +42,7 @@ function! s:RSendSelection()
 endfunction
 
 function! s:RSendLine()
-        let command = getline(".")
+    let command = getline(".")
     call s:Rcmd(command)
 endfunction
 

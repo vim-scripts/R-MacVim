@@ -14,6 +14,10 @@ A simple R plugin for MacVim.
 
 - Key maps are changable (see below).
 
+- Keywords highlight 
+
+- Fast Indentation (the one comes with VIM is slow).
+
 - For development and bug reports:
  http://github.com/randy3k/r-macvim
 
