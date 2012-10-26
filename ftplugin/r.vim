@@ -17,7 +17,7 @@ function! s:Rcmd(command)
         let app="R"
     else
         let app="R64"
-    endif    
+    endif
     call system("osascript -e 'tell application \"". app ."\" to cmd \"" . s:Escape(a:command). "\"'" .
                 \ " -e 'tell application \"System Events\" to tell process \"R\" to perform action \"AXRaise\" of window 1'")
 endfunction
@@ -28,7 +28,7 @@ function! s:RSource()
     call s:Rcmd(command)
 endfunction
 
-function! s:RSendSelection() 
+function! s:RSendSelection()
     if line("'<") == line("'>")
         let i = col("'<") - 1
         let j = col("'>") - i
@@ -36,7 +36,7 @@ function! s:RSendSelection()
         let command = strpart(l, i, j)
     else
         let lines = getline("'<", "'>")
-        let command = join(lines, "\n") 
+        let command = join(lines, "\n")
     endif
     call s:Rcmd(command)
 endfunction
@@ -55,7 +55,7 @@ endfunction!
 function! s:RComment(sym)
     let line = getline(".")
     if !empty(substitute(line, '^\s*\(.\{-}\)\s*$', '\1', ''))
-        let firstchar = matchstr(line, '\v\s*\zs.\ze.*')  
+        let firstchar = matchstr(line, '\v\s*\zs.\ze.*')
         if firstchar != a:sym
             execute "normal! I". a:sym ." "
         else
@@ -64,15 +64,15 @@ function! s:RComment(sym)
     endif
 endfunction
 
-au FileType r nnoremap <buffer><silent> <Plug>RSource :call <SID>RSource()<CR>
-au FileType r inoremap <buffer><silent> <Plug>RSource <ESC>:call <SID>RSource()<CR>gi
-au FileType r vnoremap <buffer><silent> <Plug>RSource :<C-u>call <SID>RSource()<CR>gv
-au FileType r nnoremap <buffer><silent> <Plug>RSelection :call <SID>RSendLine()<CR>
-au FileType r inoremap <buffer><silent> <Plug>RSelection <ESC>:call <SID>RSendLine()<CR>gi
-au FileType r vnoremap <buffer><silent> <Plug>RSelection :<C-u>call <SID>RSendSelection()<CR>gv
+au FileType r nnoremap <buffer><silent> <Plug>RSource     :call <SID>RSource()<CR>
+au FileType r inoremap <buffer><silent> <Plug>RSource     <ESC>:call <SID>RSource()<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RSource     :<C-u>call <SID>RSource()<CR><ESC>:normal gv<CR>
+au FileType r nnoremap <buffer><silent> <Plug>RSelection  :call <SID>RSendLine()<CR>
+au FileType r inoremap <buffer><silent> <Plug>RSelection  <ESC>:call <SID>RSendLine()<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RSelection  :<C-u>call <SID>RSendSelection()<CR><ESC>:normal gv<CR>
 au FileType r nnoremap <buffer><silent> <Plug>RChgWorkDir :call <SID>RChgWorkDir()<CR>
 au FileType r inoremap <buffer><silent> <Plug>RChgWorkDir <ESC>:call <SID>RChgWorkDir()<CR>gi
-au FileType r vnoremap <buffer><silent> <Plug>RChgWorkDir :<C-u>call <SID>RChgWorkDir()<CR>gv
-au FileType r nnoremap <buffer><silent> <Plug>RComment :call <SID>RComment("#")<CR>
-au FileType r inoremap <buffer><silent> <Plug>RComment <ESC>:call <SID>RComment("#")<CR>gi
-au FileType r vnoremap <buffer><silent> <Plug>RComment :call <SID>RComment("#")<CR>gv
+au FileType r vnoremap <buffer><silent> <Plug>RChgWorkDir :<C-u>call <SID>RChgWorkDir()<CR><ESC>:normal gv<CR>
+au FileType r nnoremap <buffer><silent> <Plug>RComment    :call <SID>RComment("#")<CR>
+au FileType r inoremap <buffer><silent> <Plug>RComment    <ESC>:call <SID>RComment("#")<CR>gi
+au FileType r vnoremap <buffer><silent> <Plug>RComment    :call <SID>RComment("#")<CR><ESC>:normal gv<CR>

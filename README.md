@@ -14,10 +14,6 @@ A simple R plugin for MacVim.
 
 - Key maps are changable (see below).
 
-- Keywords highlight 
-
-- Fast Indentation (the one comes with VIM is slow).
-
 - For development and bug reports:
  http://github.com/randy3k/r-macvim
 
@@ -29,13 +25,7 @@ A simple R plugin for MacVim.
 
 ## Installation
 
-- Check if ~/.vim/ exists (this is a directory), if not:
-
-        mkdir ~/.vim/
-
-- Copy all the files to your .vim directory:
-
-        tar --strip=1 -xzvf the_zip_file -C ~/.vim/
+- Copy the file to ~/.vim/ftplugin/
 
 - Check if ~/.vimrc exists (this is a file), if not:
 
@@ -43,18 +33,14 @@ A simple R plugin for MacVim.
 
 - Add the followings to your .vimrc file:
 
-        au FileType r nmap <buffer><silent> <D-R> <Plug>RSource
+        au FileType r map <buffer><silent> <D-R> <Plug>RSource
         au FileType r imap <buffer><silent> <D-R> <Plug>RSource
-        au FileType r vmap <buffer><silent> <D-R> <Plug>RSource
-        au FileType r nmap <buffer><silent> <D-r> <Plug>RSelection
+        au FileType r map <buffer><silent> <D-r> <Plug>RSelection
         au FileType r imap <buffer><silent> <D-r> <Plug>RSelection
-        au FileType r vmap <buffer><silent> <D-r> <Plug>RSelection
-        au FileType r nmap <buffer><silent> <D-d> <Plug>RChgWorkDir
+        au FileType r map <buffer><silent> <D-d> <Plug>RChgWorkDir
         au FileType r imap <buffer><silent> <D-d> <Plug>RChgWorkDir
-        au FileType r vmap <buffer><silent> <D-d> <Plug>RChgWorkDir
-        au FileType r nmap <buffer><silent> <D-3> <Plug>RComment
+        au FileType r map <buffer><silent> <D-3> <Plug>RComment
         au FileType r imap <buffer><silent> <D-3> <Plug>RComment
-        au FileType r vmap <buffer><silent> <D-3> <Plug>RComment
 
 
 - if you want to use R.app instead of R64.app, also add the following to your .vimrc file:
