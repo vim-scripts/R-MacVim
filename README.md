@@ -25,7 +25,7 @@ A simple R plugin for MacVim.
 
 ## Installation
 
-- Copy the file to ~/.vim/ftplugin/
+- Copy the file r.vim to ~/.vim/ftplugin/
 
 - Check if ~/.vimrc exists (this is a file), if not:
 
