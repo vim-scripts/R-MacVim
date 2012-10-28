@@ -8,9 +8,9 @@ A simple R plugin for MacVim.
 
 - It also allows you to source the whole R file (by CMD+R). 
 
-- It also allows you to comment or uncomment single or multiple lines (by CMD+3).
-
 - It also allows you to change your working directory (by CMD+d).
+
+- It also allows you to comment or uncomment single or multiple lines (by CMD+3).
 
 - Key maps are changable (see below).
 
@@ -27,22 +27,13 @@ A simple R plugin for MacVim.
 
 - Copy the file r.vim to ~/.vim/ftplugin/
 
-- Check if ~/.vimrc exists (this is a file), if not:
+- You can change the key mappings by
 
-        touch ~/.vimrc
+        let g:r_macvim_RSource     = '<D-R>'
+        let g:r_macvim_RSend       = '<D-r>'
+        let g:r_macvim_RChgWorkDir = '<D-d>'
+        let g:r_macvim_RComment    = '<D-3>'
 
-- Add the followings to your .vimrc file:
-
-        au FileType r map <buffer><silent> <D-R> <Plug>RSource
-        au FileType r imap <buffer><silent> <D-R> <Plug>RSource
-        au FileType r map <buffer><silent> <D-r> <Plug>RSelection
-        au FileType r imap <buffer><silent> <D-r> <Plug>RSelection
-        au FileType r map <buffer><silent> <D-d> <Plug>RChgWorkDir
-        au FileType r imap <buffer><silent> <D-d> <Plug>RChgWorkDir
-        au FileType r map <buffer><silent> <D-3> <Plug>RComment
-        au FileType r imap <buffer><silent> <D-3> <Plug>RComment
-
-
-- if you want to use R.app instead of R64.app, also add the following to your .vimrc file:
+- If you want to use R.app instead of R64.app, also add the following to your .vimrc file:
 
         let g:r_macvim_use32 = 1
